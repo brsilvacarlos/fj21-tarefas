@@ -5,16 +5,23 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.caelum.tarefas.ConnectionFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import br.com.caelum.tarefas.modelo.Usuario;
 
+@Repository
 public class JdbcUsuarioDao {
+	
 	private Connection connection;
 
-	public JdbcUsuarioDao() {
+	@Autowired
+	public JdbcUsuarioDao(DataSource ds) {
 		try {
-			connection = new ConnectionFactory().getConnection();
-		} catch (SQLException e) {
+			this.connection = ds.getConnection();
+		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
